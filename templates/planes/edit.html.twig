@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}  DLR Portal  {% endblock %}
+
+
+{% block body %}
+
+
+<h1 class="mt-5 mb-5">Ändern die Flurbereinigung</h1>
+
+{{ form_start(editForm) }}
+{{ form_widget(editForm) }}
+
+<button class="btn btn-success" >Senden</button>
+
+{{ form_end(editForm) }}
+
+
+{% endblock %}

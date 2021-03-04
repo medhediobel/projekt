@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+	Email
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+            {% for message in app.flashes('message') %}
+	            <div class="alert alert-success" role="alert">{{ message }}</div>
+	        {% endfor %}
+            <h1>E-mail schreiben</h1>
+            {{ form(form) }}
+    </div>
+	
+<!-- Button trigger modal -->
+
+            			
+<!-- Modal -->
+
+
+{% endblock %}

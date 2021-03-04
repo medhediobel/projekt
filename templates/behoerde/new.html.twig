@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	DLR Portal
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <h1>behoerde Add</h1>
+  {{ include('admin/behoerde/_form.html.twig', { button: 'Add'})  }}
+</div>
+
+{% endblock %}

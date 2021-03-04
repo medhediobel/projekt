@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Einwendung!{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    {# ... #}
+    <h1>Einwendung hochladen</h1>
+    {{ form_row(form.verfahrennummer) }}
+    {{ form_row(form.v_art) }}
+    {{ form_row(form.v_name) }}
+    {{ form_row(form.verfasser) }}
+    {{ form_row(form.abteilung) }}
+    {{ form_row(form.anhange) }}
+    {{ form_row(form.aktenzeichen) }}
+    {{ form_row(form.brochure) }}
+{{ form_end(form) }}
+
+{% endblock %}

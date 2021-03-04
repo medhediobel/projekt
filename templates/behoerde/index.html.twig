@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	DLR Portal
+{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gerer les behoerde</h1>
+
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+
+
+        <table class="table">
+            <head>
+                <tr>
+                    <th>Titre</th>
+                    <th>Actions</th>
+                </tr>
+            </head>
+            <tbody>
+            {% for behoerde in behoerdes %}
+                <tr>
+                    <td>{{ behoerde.typ }}</td>
+                    <td>
+                        <a href="{{ path('admin.behoerde.edit', {id: behoerde.id}) }}" class="btn btn-secondary">Ändern</a>
+                        <form method="post" action="{{ path('admin.behoerde.delete', {id: behoerde.id} ) }}" class="action" style="display: inline-block" onsubmit="return confirm('möchten Sie Löschen?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ behoerde.id) }}">
+                            <button class="btn btn-danger">Löschen</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+                <a href="{{ path('admin.behoerde.new') }}" class="btn btn-primary">Add</a>
+        </div>
+    </div>
+
+{% endblock %}

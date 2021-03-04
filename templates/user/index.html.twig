@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	DLR Portal
+{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Mitarbeiter des DLR Rheinpfalz</h1>
+
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+
+
+        <table class="table">
+            <head>
+                <tr>
+                    <th>Titre</th>
+                    <th>Actions</th>
+                </tr>
+            </head>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{{ path('user.edit', {id: user.id}) }}" class="btn btn-secondary">Ändern</a>
+                        <form method="post" action="{{ path('user.delete', {id: user.id} ) }}" class="action" style="display: inline-block" onsubmit="return confirm('möchten Sie Löschen?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                            <button class="btn btn-danger">Löschen</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+                <a href="{{ path('user.new') }}" class="btn btn-primary">Add</a>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,272 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+	{{ plane.title }}
+{% endblock %}
+
+
+{% block body %}
+	<style>
+		.articles {
+			border-radius: 10px;
+			box-shadow: 0 16px 16px rgba(0, 0, 0, 0.25);
+			padding: 16px 20px;
+		}
+		img {
+			border-radius: 10px;
+			box-shadow: 0 16px 16px rgba(0, 0, 0, 0.25);
+			margin: 10px;
+		}
+
+		#comments {
+			padding: 15px;
+		}
+		#mapid{
+			height: 400px;
+		}
+	</style>
+
+
+	{% for message in app.flashes('message') %}
+	<div class="alert alert-success" role="alert">{{ message }}</div>
+	{% endfor %}
+
+	<section class="articles mt-5">
+		<article class="b-5m">
+		<h4>Vereinfachte Flurbereinigung nach §86(1) Nr.1</h4>
+			<div class="container mt-4">
+				<div class="row">
+					<div class="col-md-8">
+						Verfahrensbilder
+					</div>
+					<div class="col-md-4">
+						<h3>Verfahrensdaten :</h3>
+						<h5>V.Nr:	{{ plane.verfahren.nummer}}</h5>
+						<h5>Dienstsitz:	{{ plane.verfahren.ort }}</h5>
+						<span class="display-6">{{ plane.verfahren.art}}</span>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  E-mail
+</button>
+            			
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+	  {{ form_start(contact) }}
+      <div class="modal-body">
+        
+		{{ form_widget(contact.title) }}
+		{{ form_row(contact.email) }}
+		{{ form_row(contact.message) }}
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Senden</button>
+      </div>
+	  {{ form_end(contact) }}
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+				<div class="text-primary" style="font-size: 4rem;font-weight:bold;">
+					<a href="{{ path('article_show', {'id' : plane.id }) }}">
+						<h2>
+							{{ plane.verfahren.name }}
+						</h2>
+					</a>
+				</div>
+				<div class="metadata">
+					am
+					{{ plane.createdAt | date('d.m.y')}}
+					Um
+					{{ plane.createdAt | date('H:i')}}
+					uhr
+					<span class="badge badge-success">
+						{{ plane.comments | length }}
+						Comment
+					</span>
+					{% if plane.user %}
+						von
+						<strong>
+							{{ plane.user.firstName }}
+							{{ plane.user.lastName }}
+						</strong>
+					{% endif %}
+				</div>
+
+				<p>
+					{{ plane.inhalt }}
+				</p>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table">
+							<tr>
+								<th>Karten</th>
+								<th>Formulare</th>
+								<th>Antrag</th>
+								<th>Information</th>
+							</tr>
+							<tr>
+								<td>Auszuge</td>
+								<td><a href="https://www.dlr.rlp.de/Internet/lew/LEW_Verfahren.nsf/c47a098de8697f77c12582f10023db80?OpenForm&ParentUNID=1449B923025F1ADCC1257C5D000592DC&InheritParent=2">Vollmacht</a></td>
+								<td><a href="https://www.dlr.rlp.de/Internet/lew/LEW_Verfahren.nsf/824ae548db9349bcc1257ef2004ecde8?OpenForm&ParentUNID=6F7DAB3DE35ADBADC125746000730018&InheritParent=2">Antrag auf Abmarkung</a></td>
+								<td><a href="https://www.dlr.rlp.de/Internet/lew/LEW_Verfahren.nsf/dc23183df95bb797c1257eeb0049d409?OpenForm&ParentUNID=6F7DAB3DE35ADBADC125746000730018&InheritParent=2">Vermessung und Abmarkung</a></td>
+							</tr>
+							<tr>
+								<td>PDF-Datei</td>
+								<td><a href="https://www.dlr.rlp.de/Internet/lew/LEW_Verfahren.nsf/47475a97d751c66ac1257f0000388eb8?OpenForm&ParentUNID=1449B923025F1ADCC1257C5D000592DC&InheritParent=2">Erklärung</a></td>
+								<td>PDF-Datei</td>
+								<td>PDF-Datei</td>
+							</tr>
+							<tr>
+								<td>Flurbereinigungsplan</td>
+								<td><a href="https://www.dlr.rlp.de/Internet/lew/LEW_Verfahren.nsf/764f2c8ac080e9ecc12581d2003bac39?OpenForm&ParentUNID=1449B923025F1ADCC1257C5D000592DC&InheritParent=2">Empfangsvollmacht</a></td>
+								<td>PDF-Datei</td>
+								<td>PDF-Datei</td>
+							</tr>
+							<tr>
+								<td>PDF-Datei</td>
+								<td>PDF-Datei</td>
+								<td>PDF-Datei</td>
+								<td>PDF-Datei</td>
+							</tr>
+
+						</table>
+					</div>
+				</div>
+
+			</div>
+
+
+		</article>
+	</section>
+
+	{% if app.user %}
+		{% if app.user == plane.user %}
+			<a href="{{ path('article_edit', { 'id' : plane.id } ) }}" class="btn btn-success mt-5 mb-5">ändern</a>
+		{% endif %}
+	{% endif %}
+<!--  -->
+
+<br>
+		<h3>Verfahrensgebiet :</h3>
+		<hr>
+		<br>
+		<div id="mapid" style="width: 100%; height: 400px" data-lat="{{plane.lat}}" data-lng="{{plane.lng}}" ></div>
+		<hr>
+
+	<h2 class="mt-5 mb-5">Einwendungen</h2>
+	<section id="comments">
+		{%	for comment in plane.comments	 %}
+			<div class="comment">
+				<div class="row">
+					<div class="md-col-3" style="color:red;">
+						{{ comment.amt }}
+						==>
+						{{ comment.author }}
+						(<small>{{ comment.createdAt | date('d/m/Y') }}
+							Um
+							{{ comment.createdAt | date('H:i') }}</small>)
+
+					</div>
+				</div>
+				<p>{{ comment.content  }}</p>
+			</div>
+
+			<hr>
+
+		{% endfor %}
+	</section>
+
+	<hr>
+
+	{% if not app.user %}
+		<h2 class="mt-5 mb-5">muss Einlogen</h2>
+		<a class="btn btn-info mt-5 mb-5" href="{{path('app_login')}}">Einlogen</a>
+
+	{% else %}
+
+		<section>
+			<h2>Die Stellungnahmen
+			</h2>
+
+			{{ form_start(commentForm) }}
+			{{ form_widget(commentForm) }}
+
+			<button class="btn btn-success mb-5">
+				Verleger
+			</button>
+
+			{{ form_end(commentForm) }}
+		</section>
+		<hr>
+		
+		<font size="2" face="Arial">©DLR</font>
+
+		<div class="container">
+				<a href="http://www.landentwicklung.rlp.de" target="_blank" title="Landentwicklung Rheinland-Pfalz"><font size="2" face="Arial">www.landentwicklung.rlp.de</font></a>
+		</div>
+			
+		
+		
+		<br>
+	{% endif %}
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+<script>
+var mymap = L.map('mapid').setView([49.976559, 8.268062], 16);
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                // Il est toujours bien de laisser le lien vers la source des données
+                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                minZoom: 1,
+                maxZoom: 20
+}).addTo(mymap);
+
+var marker = L.marker([49.976932, 8.267217]).addTo(mymap);
+
+var polygon = L.polygon([
+    [49.976932, 8.267217],
+    [49.976578, 8.265690],
+	[49.976329, 8.269284],
+    [49.977130, 8.269619]
+]).addTo(mymap);
+polygon.bindPopup("Ort");
+
+var circle = L.circle([49.976932, 8.267217], {
+    color: 'green',
+    fillColor: 'green',
+    fillOpacity: 0.5,
+    radius: 100
+}).addTo(mymap);
+circle.bindPopup("Ort");
+
+marker.bindPopup("<b>mainz</b><br>title").openPopup();
+
+
+</script>
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script>
+		window.onload = () => {
+			document.querySelector("#contact_title").value = "{{ plane.verfahren.art }}"
+		}
+	</script>
+
+
+
+{% endblock %}
